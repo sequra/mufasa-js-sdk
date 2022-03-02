@@ -1,1 +1,1 @@
-export * from './sequraPCI'
+export * from './sequraPCI';

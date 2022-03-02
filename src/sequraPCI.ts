@@ -1,4 +1,9 @@
-const SequraPCI = () => {
-}
+import paymentForm from './paymentForm';
 
-export default SequraPCI
+const SequraPCI = () => {
+  return {
+    paymentForm
+  };
+};
+
+export default SequraPCI;
