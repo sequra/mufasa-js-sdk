@@ -1,0 +1,35 @@
+{
+  "name": "@sequra/mufasa-js-sdk",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/sequra"
+  },
+  "version": "1.0.0",
+  "description": "A library to integrate the Mufasa iframe",
+  "scripts": {
+    "dev": "webpack --watch --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sequra/mufasa-js-sdk.git"
+  },
+  "keywords": [
+    "pci",
+    "mufasa",
+    "iframe"
+  ],
+  "author": "SeQura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sequra/mufasa-js-sdk/issues"
+  },
+  "homepage": "https://github.com/sequra/mufasa-js-sdk#readme",
+  "devDependencies": {
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
