@@ -20,12 +20,12 @@ const paymentForm = ({
     mufasaIframe.contentWindow.postMessage({
       action: 'Sequra.set_permission_value',
       permission_value: value
-    });
+    }, "*");
   };
   const submitForm = () => {
     mufasaIframe.contentWindow.postMessage({
       action: 'Sequra.iframe_submit'
-    });
+    }, "*"); // TODO: review origin
   };
 
   const instanceObject = {
@@ -52,7 +52,12 @@ const paymentForm = ({
     container.appendChild(mufasaIframe);
 
     const eventListener = (event: MessageEvent) => {
-      const eventData = JSON.parse(event.data);
+      let eventData;
+      try {
+        eventData = JSON.parse(event.data);
+      } catch(e) {
+        return
+      }
 
       switch (eventData.action) {
         case 'Sequra.card_data_fulfilled': {
@@ -105,7 +110,7 @@ const paymentForm = ({
         case 'Sequra.start_synchronization_polling': {
           scaWrapper?.remove();
           scaWrapper = null;
-          mufasaIframe.contentWindow.postMessage(event.data, url);
+          event.source.postMessage(event.data, event.origin);
         }
       }
     };

@@ -1,1 +1,2 @@
-export * from './sequraPCI';
+import SequraPCI from './sequraPCI';
+export default SequraPCI

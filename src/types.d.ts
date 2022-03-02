@@ -6,11 +6,11 @@ declare interface Window {
 
 interface PaymentFormConfig {
   url: string;
-  onCardDataFulfilled: () => void;
-  onPaymentFailed: () => void;
-  onPaymentSuccessful: () => void;
-  onFormSubmitted: () => void;
-  onScaRequired: () => void;
-  onScaLoaded: () => void;
-  onScaClosed: () => void;
+  onCardDataFulfilled?: () => void;
+  onPaymentFailed?: () => void;
+  onPaymentSuccessful?: () => void;
+  onFormSubmitted?: () => void;
+  onScaRequired?: () => void;
+  onScaLoaded?: () => void;
+  onScaClosed?: () => void;
 }

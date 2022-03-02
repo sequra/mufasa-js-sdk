@@ -1,4 +1,5 @@
 const path = require('path');
+const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
 module.exports = {
   entry: {
@@ -8,10 +9,20 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
+        loader: 'esbuild-loader',
         exclude: /node_modules/,
+        options: {
+          loader: 'ts',
+        }
       },
     ],
+  },
+  optimization: {
+    minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2015'
+      })
+    ]
   },
   resolve: {
     extensions: ['.ts'],
