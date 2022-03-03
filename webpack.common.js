@@ -3,7 +3,7 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader')
 
 module.exports = {
   entry: {
-    "sequraPCI": path.resolve(__dirname, "./src/index.ts")
+    "SequraPCI": path.resolve(__dirname, "./src/index.ts")
   },
   module: {
     rules: [

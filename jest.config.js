@@ -1,6 +1,9 @@
 module.exports = {
   testEnvironment: "jsdom",
-  // testEnvironmentOptions: { "resources": "usable" },
+  testEnvironmentOptions: {
+    resources: "usable",
+    runScripts: "dangerously"
+  },
   "transform": {
     "^.+\\.ts$": [
       "esbuild-jest",

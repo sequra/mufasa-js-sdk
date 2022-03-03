@@ -1,31 +1,45 @@
-import SequraPCI from '../sequraPCI'
+import SequraPCI from '../sequraPCI';
 
-describe("SequraPCI", () => {
-  beforeAll(() => document.body.innerHTML = "<div id='my-container'></div>")
-  afterEach(() => document.getElementById("my-container").innerHTML = '')
-  const url = "http://test.com"
+describe('SequraPCI', () => {
+  let paymentForm;
+  beforeAll(() => (document.body.innerHTML = "<div id='my-container'></div>"));
+  afterEach(() => (document.getElementById('my-container').innerHTML = ''));
+  afterEach(() => paymentForm.unbind());
+  const basePath = `file:///${__dirname}/iframePages`;
+  let url = `${basePath}/empty.html`;
 
-  test("mounts the iframe in the DOM", async () => {
-    SequraPCI.paymentForm({ url }).mount("my-container")
-    // const mufasaIframe = <HTMLIFrameElement>document.getElementById("mufasa-iframe")
-  })
+  test('mounts the iframe in the DOM', async () => {
+    paymentForm = SequraPCI.paymentForm({ url }).mount('my-container');
+    const mufasaIframe = document.querySelector('iframe');
+    expect(mufasaIframe).toHaveAttribute('src', url);
+  });
 
-  test("onPaymentSuccessful", async () => {
-    const callbackSpy = jest.fn()
-    await new Promise((resolve) => {
-      const onPaymentSuccessful = () => {
-        callbackSpy()
-        resolve(null)
-      }
+  const callbackNames = [
+    'onCardDataFulfilled',
+    'onPaymentSuccessful',
+    'onPaymentFailed',
+    'onFormSubmitted',
+    'onScaLoaded',
+    'onScaClosed'
+  ];
+  callbackNames.forEach((callbackName) => {
+    test(callbackName, async () => {
+      url = `${basePath}/${callbackName}.html`;
+      const callbackSpy = jest.fn();
+      await new Promise((resolve) => {
+        const callback = () => {
+          callbackSpy();
+          resolve(null);
+        };
 
-      SequraPCI.paymentForm({
-        url,
-        onPaymentSuccessful
-      }).mount("my-container")
+        paymentForm = SequraPCI.paymentForm({
+          url,
+          [callbackName]: callback
+        }).mount('my-container');
 
-      window.postMessage(JSON.stringify({ action: 'Sequra.payment_successful' }), '*');
-      setTimeout(resolve, 100)
-    })
-    expect(callbackSpy).toHaveBeenCalledTimes(1)
-  })
-})
+        setTimeout(resolve, 500); // To not lock the test in case the callback is not called
+      });
+      expect(callbackSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+});

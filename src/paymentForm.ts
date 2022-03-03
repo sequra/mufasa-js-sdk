@@ -17,19 +17,26 @@ const paymentForm = ({
   let scaIframe: HTMLIFrameElement;
 
   const setPermissionValue = (value: boolean) => {
-    mufasaIframe.contentWindow.postMessage({
-      action: 'Sequra.set_permission_value',
-      permission_value: value
-    }, "*");
+    mufasaIframe.contentWindow.postMessage(
+      {
+        action: 'Sequra.set_permission_value',
+        permission_value: value
+      },
+      '*'
+    );
   };
   const submitForm = () => {
-    mufasaIframe.contentWindow.postMessage({
-      action: 'Sequra.iframe_submit'
-    }, "*"); // TODO: review origin
+    mufasaIframe.contentWindow.postMessage(
+      {
+        action: 'Sequra.iframe_submit'
+      },
+      '*'
+    ); // TODO: review origin
   };
 
   const instanceObject = {
     mount: <any>null,
+    unbind: <any>voidFunction,
     onCardDataFulfilled,
     onPaymentFailed,
     onPaymentSuccessful,
@@ -47,7 +54,7 @@ const paymentForm = ({
       id: 'mufasa-iframe',
       name: 'mufasa-iframe',
       src: url,
-      style: 'border-width: 0px'
+      style: 'min-height: 340px; border-width: 0px; border: none; max-width:360px; width: 100%; min-width: 200px;'
     });
     container.appendChild(mufasaIframe);
 
@@ -55,8 +62,8 @@ const paymentForm = ({
       let eventData;
       try {
         eventData = JSON.parse(event.data);
-      } catch(e) {
-        return
+      } catch (e) {
+        return;
       }
 
       switch (eventData.action) {
@@ -82,17 +89,20 @@ const paymentForm = ({
         case 'Sequra.3ds_authentication': {
           scaWrapper = createElement('div', {
             id: 'iframe-3ds-autentication-wrapper',
-            class: 'iframe-3ds-wrapper' // pending to move to styles
+            // class: 'iframe-3ds-wrapper' // pending to move to styles
+            style:
+              'display: block !important; position: fixed !important; z-index: 2147483647 !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;'
           });
 
           scaIframe = <HTMLIFrameElement>createElement('iframe', {
             id: 'iframe-3ds-autentication',
             src: eventData.src,
             frameborder: '0',
-            style: 'border-width: 0px',
             allowtransparency: 'true',
             scrolling: 'no',
-            class: 'iframe-3ds hidden'
+            class: 'hidden', // ADD iframe-3ds
+            style:
+              'border-width: 0px; position: absolute !important; left: 0px !important; top: 0px !important; height: 100% !important; width: 100% !important;'
           });
 
           scaWrapper.appendChild(scaIframe);
@@ -101,7 +111,9 @@ const paymentForm = ({
           break;
         }
         case 'Sequra.3ds_authentication_loaded':
-          scaIframe.classList.remove('hidden');
+          if (scaIframe) {
+            scaIframe.classList.remove('hidden');
+          }
           instanceObject.onScaLoaded();
           break;
         case 'Sequra.3ds_authentication_closed':
@@ -110,12 +122,15 @@ const paymentForm = ({
         case 'Sequra.start_synchronization_polling': {
           scaWrapper?.remove();
           scaWrapper = null;
-          event.source.postMessage(event.data, event.origin);
+          mufasaIframe.contentWindow.postMessage(JSON.stringify(eventData), url);
         }
       }
     };
 
     listenPostMessages(eventListener);
+    instanceObject.unbind = () => window.removeEventListener('message', eventListener);
+
+    return instanceObject;
   };
 
   instanceObject.mount = mount;
