@@ -8,11 +8,20 @@ describe('SequraPCI', () => {
   const basePath = `file:///${__dirname}/iframePages`;
   let url = `${basePath}/empty.html`;
 
-  test('mounts the iframe in the DOM', async () => {
-    paymentForm = SequraPCI.paymentForm({ url }).mount('my-container');
-    const mufasaIframe = document.querySelector('iframe');
-    expect(mufasaIframe).toHaveAttribute('src', url);
-  });
+
+  describe('mounting', () => {
+    test('mounts the iframe in the DOM', async () => {
+      paymentForm = SequraPCI.paymentForm({ url }).mount('my-container');
+      const mufasaIframe = document.querySelector('iframe');
+      expect(mufasaIframe).toHaveAttribute('src', url);
+    });
+
+    test('mounts the iframe in the DOM, hidden', async () => {
+      paymentForm = SequraPCI.paymentForm({ url }).mount('my-container', { hidden: true });
+      const mufasaIframe = document.querySelector('iframe');
+      expect(mufasaIframe.style["display"]).toEqual("none")
+    });
+  })
 
   const callbackNames = [
     'onCardDataFulfilled',

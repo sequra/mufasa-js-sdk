@@ -12,7 +12,7 @@ const paymentForm = ({
   onScaLoaded = voidFunction,
   onScaClosed = voidFunction,
 }: PaymentFormConfig) => {
-  const mount = (domId: string) => {
+  const mount = (domId: string, { hidden = false } = {}) => {
     let mufasaIframe: HTMLIFrameElement;
     let scaWrapper: HTMLElement;
     let scaIframe: HTMLIFrameElement;
@@ -22,7 +22,7 @@ const paymentForm = ({
       id: 'mufasa-iframe',
       name: 'mufasa-iframe',
       src: url,
-      style: 'min-height:340px;border-width:0px;border:none;max-width:360px;width:100%;min-width:200px;',
+      style: `min-height:340px;border-width:0px;border:none;max-width:360px;width:100%;min-width:200px;${hidden && "display:none;"}`,
     });
     container.appendChild(mufasaIframe);
 
