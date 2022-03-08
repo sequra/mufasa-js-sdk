@@ -20,7 +20,7 @@ describe('SequraPCI', () => {
     'onPaymentFailed',
     'onFormSubmitted',
     'onScaLoaded',
-    'onScaClosed'
+    'onScaClosed',
   ];
   callbackNames.forEach((callbackName) => {
     test(callbackName, async () => {
@@ -34,7 +34,7 @@ describe('SequraPCI', () => {
 
         paymentForm = SequraPCI.paymentForm({
           url,
-          [callbackName]: callback
+          [callbackName]: callback,
         }).mount('my-container');
 
         setTimeout(resolve, 500); // To not lock the test in case the callback is not called

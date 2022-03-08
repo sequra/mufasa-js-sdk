@@ -1,18 +1,18 @@
 const path = require('path');
 const { merge } = require('webpack-merge');
- const common = require('./webpack.common.js');
+const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'index.js',
     library: {
       name: "[name]",
-      type: "umd",
+      type: "commonjs",
       export: "default"
     },
-    // clean: true,
+    clean: true,
   },
 });

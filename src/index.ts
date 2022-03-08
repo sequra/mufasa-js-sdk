@@ -1,1 +1,1 @@
-export * from './sequraPCI';
+export { default } from './sequraPCI';

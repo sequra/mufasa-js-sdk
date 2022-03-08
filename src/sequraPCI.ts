@@ -1,7 +1,7 @@
 import paymentForm from './paymentForm';
 
 const SequraPCI = {
-  paymentForm
+  paymentForm,
 };
 
 export default SequraPCI;

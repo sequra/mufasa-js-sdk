@@ -7,10 +7,11 @@ module.exports = merge(common, {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name]-[fullhash].js',
+    filename: '[name].js',
     library: {
       name: "[name]",
-      type: "umd"
+      type: "var",
+      export: "default"
     },
     clean: true,
   },

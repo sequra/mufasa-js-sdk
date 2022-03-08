@@ -5,13 +5,17 @@
   },
   "version": "1.0.0",
   "description": "A library to integrate the Mufasa iframe",
+  "main": "dist/index.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "dev": "webpack --watch --config webpack.dev.js",
     "dist": "webpack --config webpack.prod.js",
     "test": "jest --verbose",
     "test:ci": "jest --ci --colors --silent --reporters=default --reporters=jest-junit",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prepare" : "webpack --config webpack.package.js"
   },
+  "files": ["src/**/*"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sequra/mufasa-js-sdk.git"

@@ -10,51 +10,19 @@ const paymentForm = ({
   onFormSubmitted = voidFunction,
   onScaRequired = voidFunction,
   onScaLoaded = voidFunction,
-  onScaClosed = voidFunction
+  onScaClosed = voidFunction,
 }: PaymentFormConfig) => {
-  let mufasaIframe: HTMLIFrameElement;
-  let scaWrapper: HTMLElement;
-  let scaIframe: HTMLIFrameElement;
-
-  const setPermissionValue = (value: boolean) => {
-    mufasaIframe.contentWindow.postMessage(
-      {
-        action: 'Sequra.set_permission_value',
-        permission_value: value
-      },
-      '*'
-    );
-  };
-  const submitForm = () => {
-    mufasaIframe.contentWindow.postMessage(
-      {
-        action: 'Sequra.iframe_submit'
-      },
-      '*'
-    ); // TODO: review origin
-  };
-
-  const instanceObject = {
-    mount: <any>null,
-    unbind: <any>voidFunction,
-    onCardDataFulfilled,
-    onPaymentFailed,
-    onPaymentSuccessful,
-    onFormSubmitted,
-    onScaRequired,
-    onScaLoaded,
-    onScaClosed,
-    setPermissionValue,
-    submitForm
-  };
-
   const mount = (domId: string) => {
+    let mufasaIframe: HTMLIFrameElement;
+    let scaWrapper: HTMLElement;
+    let scaIframe: HTMLIFrameElement;
+
     var container = document.getElementById(domId);
     mufasaIframe = <HTMLIFrameElement>createElement('iframe', {
       id: 'mufasa-iframe',
       name: 'mufasa-iframe',
       src: url,
-      style: 'min-height: 340px; border-width: 0px; border: none; max-width:360px; width: 100%; min-width: 200px;'
+      style: 'min-height:340px;border-width:0px;border:none;max-width:360px;width:100%;min-width:200px;',
     });
     container.appendChild(mufasaIframe);
 
@@ -68,18 +36,19 @@ const paymentForm = ({
 
       switch (eventData.action) {
         case 'Sequra.card_data_fulfilled': {
-          instanceObject.onCardDataFulfilled();
+          onCardDataFulfilled();
           break;
         }
         case 'Sequra.payment_failed': {
-          instanceObject.onPaymentFailed();
+          onPaymentFailed();
+          break;
         }
         case 'Sequra.payment_successful': {
-          instanceObject.onPaymentSuccessful();
+          onPaymentSuccessful();
           break;
         }
         case 'Sequra.mufasa_submitted': {
-          instanceObject.onFormSubmitted();
+          onFormSubmitted();
           break;
         }
         case 'Sequra.mufasa_resized': {
@@ -89,9 +58,7 @@ const paymentForm = ({
         case 'Sequra.3ds_authentication': {
           scaWrapper = createElement('div', {
             id: 'iframe-3ds-autentication-wrapper',
-            // class: 'iframe-3ds-wrapper' // pending to move to styles
-            style:
-              'display: block !important; position: fixed !important; z-index: 2147483647 !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;'
+            style: 'display:block;position:fixed;z-index:2147483647;top:0;left:0;right:0;bottom:0;',
           });
 
           scaIframe = <HTMLIFrameElement>createElement('iframe', {
@@ -100,24 +67,23 @@ const paymentForm = ({
             frameborder: '0',
             allowtransparency: 'true',
             scrolling: 'no',
-            class: 'hidden', // ADD iframe-3ds
-            style:
-              'border-width: 0px; position: absolute !important; left: 0px !important; top: 0px !important; height: 100% !important; width: 100% !important;'
+            class: 'hidden', // ADD iframe-3ds?
+            style: 'border-width:0px;position:absolute;left:0px;top:0px;height:100%;width:100%;',
           });
 
           scaWrapper.appendChild(scaIframe);
           document.body.appendChild(scaWrapper);
-          instanceObject.onScaRequired();
+          onScaRequired();
           break;
         }
         case 'Sequra.3ds_authentication_loaded':
           if (scaIframe) {
             scaIframe.classList.remove('hidden');
           }
-          instanceObject.onScaLoaded();
+          onScaLoaded();
           break;
         case 'Sequra.3ds_authentication_closed':
-          instanceObject.onScaClosed();
+          onScaClosed();
         case 'Sequra.new_form_fields':
         case 'Sequra.start_synchronization_polling': {
           scaWrapper?.remove();
@@ -126,15 +92,38 @@ const paymentForm = ({
         }
       }
     };
-
     listenPostMessages(eventListener);
-    instanceObject.unbind = () => window.removeEventListener('message', eventListener);
 
-    return instanceObject;
+    const setPermissionValue = (value: boolean) => {
+      mufasaIframe.contentWindow.postMessage(
+        {
+          action: 'Sequra.set_permission_value',
+          permission_value: value,
+        },
+        '*',
+      );
+    };
+
+    const submitForm = () => {
+      mufasaIframe.contentWindow.postMessage(
+        {
+          action: 'Sequra.iframe_submit',
+        },
+        '*',
+      ); // TODO: review origin
+    };
+    const unbind = () => window.removeEventListener('message', eventListener);
+
+    return {
+      unbind,
+      setPermissionValue,
+      submitForm,
+    };
   };
 
-  instanceObject.mount = mount;
-  return instanceObject;
+  return {
+    mount,
+  };
 };
 
 export default paymentForm;
