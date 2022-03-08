@@ -8,7 +8,6 @@ describe('SequraPCI', () => {
   const basePath = `file:///${__dirname}/iframePages`;
   let url = `${basePath}/empty.html`;
 
-
   describe('mounting', () => {
     test('mounts the iframe in the DOM', async () => {
       paymentForm = SequraPCI.paymentForm({ url }).mount('my-container');
