@@ -96,19 +96,19 @@ const paymentForm = ({
 
     const setPermissionValue = (value: boolean) => {
       mufasaIframe.contentWindow.postMessage(
-        {
+        JSON.stringify({
           action: 'Sequra.set_permission_value',
           permission_value: value,
-        },
+        }),
         '*',
       );
     };
 
     const submitForm = () => {
       mufasaIframe.contentWindow.postMessage(
-        {
+        JSON.stringify({
           action: 'Sequra.iframe_submit',
-        },
+        }),
         '*',
       ); // TODO: review origin
     };

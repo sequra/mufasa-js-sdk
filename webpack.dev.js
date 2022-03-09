@@ -13,6 +13,6 @@ module.exports = merge(common, {
       type: "umd",
       export: "default"
     },
-    // clean: true,
+    clean: true,
   },
 });
