@@ -1,9 +1,9 @@
 {
-  "name": "@sequra/mufasa-js-sdk",
+  "name": "@golive/pci-card-form",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/sequra"
+    "registry": "https://npm.pkg.github.com/golive"
   },
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A library to integrate the Mufasa iframe",
   "main": "dist/index.js",
   "types": "src/types.d.ts",
@@ -18,7 +18,7 @@
   "files": ["src/**/*"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sequra/mufasa-js-sdk.git"
+    "url": "git+https://github.com/golive/pci-card-form.git"
   },
   "keywords": [
     "pci",
@@ -28,9 +28,9 @@
   "author": "SeQura",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sequra/mufasa-js-sdk/issues"
+    "url": "https://github.com/golive/pci-card-form/issues"
   },
-  "homepage": "https://github.com/sequra/mufasa-js-sdk#readme",
+  "homepage": "https://github.com/golive/pci-card-form#readme",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@types/jest": "^27.4.1",

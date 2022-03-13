@@ -82,7 +82,7 @@ paymentForm.unbind()
 ## Browser usage
 
 ```html
-<script src="[PENDING]/mufasa-js-sdk/v1.0.0/sequra-pci.js"
+<script src="[PENDING]/mufasa-js-sdk/v0.0.2/sequra-pci.js"
   integrity="sha256-[PENDING]"
   crossorigin="anonymous">
 </script>
@@ -102,9 +102,9 @@ Where `GITHUB_TOKEN` is an env var with your Github access token.
 Then, you can add it to your `package.json`:
 
 ```bash
-yarn add @sequra/mufasa-js-sdk
+yarn add @golive/pci-card-form
 ```
 ```javascript
-import SequraPCI from "@sequra/mufasa-js-sdk"; // es6 native
-const SequraPCI = require("@sequra/mufasa-js-sdk"); // commonjs
+import SequraPCI from "@golive/pci-card-form"; // es6 native
+const SequraPCI = require("@golive/pci-card-form"); // commonjs
 ```
