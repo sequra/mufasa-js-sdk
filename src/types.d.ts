@@ -7,10 +7,21 @@ declare interface Window {
 interface PaymentFormConfig {
   url: string;
   onCardDataFulfilled?: () => void;
+  onFormErrors?: () => void;
   onPaymentFailed?: () => void;
   onPaymentSuccessful?: () => void;
   onFormSubmitted?: () => void;
   onScaRequired?: () => void;
   onScaLoaded?: () => void;
   onScaClosed?: () => void;
+}
+
+interface PaymentFormMountResult {
+  unbind: () => void;
+  setPermissionValue: (value: boolean) => void;
+  submitForm: () => void;
+}
+
+interface PaymentFormResult {
+  mount: (domId: string, { hidden }?: { hidden: boolean }) => PaymentFormMountResult;
 }

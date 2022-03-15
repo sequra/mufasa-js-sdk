@@ -5,14 +5,15 @@ const voidFunction = () => {};
 const paymentForm = ({
   url,
   onCardDataFulfilled = voidFunction,
+  onFormErrors = voidFunction,
   onPaymentFailed = voidFunction,
   onPaymentSuccessful = voidFunction,
   onFormSubmitted = voidFunction,
   onScaRequired = voidFunction,
   onScaLoaded = voidFunction,
   onScaClosed = voidFunction,
-}: PaymentFormConfig) => {
-  const mount = (domId: string, { hidden = false } = {}) => {
+}: PaymentFormConfig):PaymentFormResult => {
+  const mount = (domId: string, { hidden = false } = {}):PaymentFormMountResult => {
     let mufasaIframe: HTMLIFrameElement;
     let scaWrapper: HTMLElement;
     let scaIframe: HTMLIFrameElement;
@@ -35,6 +36,10 @@ const paymentForm = ({
       }
 
       switch (eventData.action) {
+        case 'Sequra.invalid_form': {
+          onFormErrors();
+          break;
+        }
         case 'Sequra.card_data_fulfilled': {
           onCardDataFulfilled();
           break;
@@ -67,7 +72,7 @@ const paymentForm = ({
             frameborder: '0',
             allowtransparency: 'true',
             scrolling: 'no',
-            class: 'hidden', // ADD iframe-3ds?
+            class: 'hidden',
             style: 'border-width:0px;position:absolute;left:0px;top:0px;height:100%;width:100%;',
           });
 
@@ -110,7 +115,7 @@ const paymentForm = ({
           action: 'Sequra.iframe_submit',
         }),
         '*',
-      ); // TODO: review origin
+      );
     };
     const unbind = () => window.removeEventListener('message', eventListener);
 

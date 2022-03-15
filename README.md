@@ -11,12 +11,13 @@ This library allows to integrate a card payment form
   SequraPCI.paymentForm({
     url: "https://sequra-provided-url-to-pci-env",
     onCardDataFulfilled: () => { ... },
-    onPaymentFailed:     () => { ... },
-    onPaymentSuccessful: () => { ... },
+    onFormErrors:        () => { ... },
     onFormSubmitted:     () => { ... },
     onScaRequired:       () => { ... },
     onScaLoaded:         () => { ... },
     onScaClosed:         () => { ... },
+    onPaymentFailed:     () => { ... },
+    onPaymentSuccessful: () => { ... },
   })
 ```
 
@@ -26,15 +27,16 @@ Notes:
 
 ### Callbacks description
 
-| callback            | description                                                                                                                                         |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| callback            | description                                                                                                                                          |
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | onCardDataFulfilled | Called when all the fields in the card form are filled. Useful if the pay button is outside the PCI iframe and want to control the enabled property. |
-| onPaymentFailed     | Called when a payment has failed.                                                                                                                    |
-| onPaymentSuccessful | Called when a payment has succeeded.                                                                                                                 |
+| onFormErrors        | Called when the form has errors.                                                                                                                     |
 | onFormSubmitted     | Called when the form has been submitted.                                                                                                             |
 | onScaRequired       | Called when the payment requires a SCA.                                                                                                              |
 | onScaLoaded         | Called when the SCA iframe has been loaded.                                                                                                          |
 | onScaClosed         | Called when the SCA iframe has been closed.                                                                                                          |
+| onPaymentFailed     | Called when a payment has failed.                                                                                                                    |
+| onPaymentSuccessful | Called when a payment has succeeded.                                                                                                                 |
 
 ### Mounting
 

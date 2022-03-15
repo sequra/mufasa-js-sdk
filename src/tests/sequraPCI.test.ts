@@ -1,8 +1,7 @@
 import SequraPCI from '../sequraPCI';
-import { JSDOM } from 'jsdom';
 
 describe('SequraPCI', () => {
-  let paymentForm;
+  let paymentForm: PaymentFormMountResult;
   beforeAll(() => (document.body.innerHTML = "<div id='my-container'></div>"));
   afterEach(() => (document.getElementById('my-container').innerHTML = ''));
   afterEach(() => paymentForm.unbind());
@@ -25,6 +24,7 @@ describe('SequraPCI', () => {
 
   describe('callbacks', () => {
     const callbackNames = [
+      'onFormErrors',
       'onCardDataFulfilled',
       'onPaymentSuccessful',
       'onPaymentFailed',
