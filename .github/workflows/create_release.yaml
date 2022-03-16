@@ -4,6 +4,9 @@ on:
     types: [created]
   push:
     branches: [ initial-library-implementation ]
+permissions:
+  contents: read
+  packages: write
 jobs:
   build:
     runs-on: ubuntu-latest
