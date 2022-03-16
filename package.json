@@ -13,7 +13,7 @@
     "test": "jest --verbose",
     "test:ci": "jest --ci --colors --silent --reporters=default --reporters=jest-junit",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prepare" : "webpack --config webpack.package.js"
+    "prepare": "webpack --config webpack.package.js"
   },
   "files": ["src/**/*"],
   "repository": {
