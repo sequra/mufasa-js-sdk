@@ -1,6 +1,8 @@
 import { createElement, listenPostMessages } from './utils';
 
-const voidFunction = () => {};
+const voidFunction = () => {
+  // noop
+};
 
 const paymentForm = ({
   url,
@@ -14,12 +16,11 @@ const paymentForm = ({
   onScaClosed = voidFunction,
 }: PaymentFormConfig):PaymentFormResult => {
   const mount = (domId: string, { hidden = false } = {}):PaymentFormMountResult => {
-    let mufasaIframe: HTMLIFrameElement;
     let scaWrapper: HTMLElement;
     let scaIframe: HTMLIFrameElement;
 
-    var container = document.getElementById(domId);
-    mufasaIframe = <HTMLIFrameElement>createElement('iframe', {
+    const container = document.getElementById(domId);
+    const mufasaIframe = createElement('iframe', {
       id: 'mufasa-iframe',
       name: 'mufasa-iframe',
       src: url,
@@ -90,11 +91,12 @@ const paymentForm = ({
         case 'Sequra.3ds_authentication_closed':
           onScaClosed();
         case 'Sequra.new_form_fields':
-        case 'Sequra.start_synchronization_polling': {
+          // falls through
+        case 'Sequra.start_synchronization_polling':
           scaWrapper?.remove();
           scaWrapper = null;
           mufasaIframe.contentWindow.postMessage(JSON.stringify(eventData), url);
-        }
+          break;
       }
     };
     listenPostMessages(eventListener);

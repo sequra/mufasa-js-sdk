@@ -30,8 +30,8 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
         run: yarn
 
-      # - name: Run Typescript Checks
-      #   run: yarn lint
+      - name: Run Typescript Checks
+        run: yarn lint
 
       - name: Run the tests
         run: yarn test:ci

@@ -13,9 +13,12 @@
     "test": "jest --verbose",
     "test:ci": "jest --ci --colors --silent --reporters=default --reporters=jest-junit",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "lint": "eslint . --ext .ts",
     "prepare": "webpack --config webpack.package.js"
   },
-  "files": ["src/**/*"],
+  "files": [
+    "src/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sequra/mufasa-js-sdk.git"
@@ -34,9 +37,12 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@types/jest": "^27.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
     "esbuild": "^0.14.23",
     "esbuild-jest": "^0.5.0",
     "esbuild-loader": "^2.18.0",
+    "eslint": "^8.11.0",
     "jest": "^27.5.1",
     "jest-environment-jsdom-global": "^3.0.0",
     "jest-junit": "^13.0.0",
