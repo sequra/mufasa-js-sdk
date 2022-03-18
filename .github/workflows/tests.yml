@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install packages
-        if: steps.yarn-cache.outputs.cache-hit != 'true' # Over here!
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Run Typescript Checks
