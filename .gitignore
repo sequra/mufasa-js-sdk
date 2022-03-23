@@ -1,0 +1,4 @@
+node_modules
+dist
+junit.xml
+yarn-error.log
