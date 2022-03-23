@@ -99,10 +99,8 @@ Create a `.npmrc` file with the following contents:
 
 ```bash
 @sequra:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Where `GITHUB_TOKEN` is an env var with your Github access token.
 Then, you can add it to your `package.json`:
 
 ```bash
