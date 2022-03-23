@@ -9,7 +9,6 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
     library: {
-      name: "[name]",
       type: "commonjs",
       export: "default"
     },
