@@ -7,7 +7,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'sequra-pci.js',
     library: {
       name: "[name]",
       type: "var",
