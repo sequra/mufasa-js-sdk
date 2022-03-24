@@ -86,7 +86,7 @@ paymentForm.unbind()
 ```html
 <script
   type="text/javascript"
-  src="https://sequra-prod-mufasa-js-sdk-assets.s3.eu-west-1.amazonaws.com/v1.0.0/sequra-pci.js"
+  src="https://mufasa.sequracdn.com/v1.0.0/sequra-pci.js"
   integrity="sha384-UlIevrkGIbR5eejNmc3+JaWvwnRkxHVtOG/+GJO/Hx8jQ1a5ED2yUZzH6hwMrWui"
   crossorigin="anonymous">
 </script>
@@ -99,6 +99,7 @@ Create a `.npmrc` file with the following contents:
 
 ```bash
 @sequra:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 Then, you can add it to your `package.json`:
