@@ -60,5 +60,8 @@ jobs:
           aws-region: eu-west-1
 
       - name: Upload files to S3 with AWS CLI
-        run: |
-          aws s3 cp dist s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.ref_name }} --recursive --acl public-read
+        run: >
+          aws s3 cp dist s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.ref_name }}
+          --recursive
+          --acl private
+          --cache-control "max-age=31536000"
