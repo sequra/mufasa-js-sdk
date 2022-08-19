@@ -2,7 +2,7 @@
 <html>
 <body>
 <script>
-  window.parent.postMessage(JSON.stringify({ action: 'Sequra.payment_failed' }), '*')
+  window.parent.postMessage(JSON.stringify({ action: 'Sequra.payment_failed', error: 'authentication' }), '*')
 </script>
 </body>
 </html>

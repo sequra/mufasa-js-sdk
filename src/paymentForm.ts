@@ -46,7 +46,7 @@ const paymentForm = ({
           break;
         }
         case 'Sequra.payment_failed': {
-          onPaymentFailed();
+          onPaymentFailed({ error: eventData.error });
           break;
         }
         case 'Sequra.payment_successful': {

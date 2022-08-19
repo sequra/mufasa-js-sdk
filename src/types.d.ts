@@ -8,7 +8,7 @@ interface PaymentFormConfig {
   url: string;
   onCardDataFulfilled?: () => void;
   onFormErrors?: () => void;
-  onPaymentFailed?: () => void;
+  onPaymentFailed?: (data: { error: string }) => void;
   onPaymentSuccessful?: () => void;
   onFormSubmitted?: () => void;
   onScaRequired?: () => void;
