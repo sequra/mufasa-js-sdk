@@ -22,12 +22,11 @@ describe('SequraPCI', () => {
     });
   });
 
-  describe('callbacks', () => {
+  describe('callbacks without params', () => {
     const callbackNames = [
       'onFormErrors',
       'onCardDataFulfilled',
       'onPaymentSuccessful',
-      'onPaymentFailed',
       'onFormSubmitted',
       'onScaLoaded',
       'onScaClosed',
@@ -52,7 +51,27 @@ describe('SequraPCI', () => {
         expect(callbackSpy).toHaveBeenCalledTimes(1);
       });
     });
-  })
+  });
+
+  describe('callback with params', () => {
+    test('onPaymentFailed', async () => {
+        const callbackSpy = jest.fn();
+        await new Promise((resolve) => {
+          const callback = ({ error }: { error: string }) => {
+            callbackSpy(error);
+            resolve(null);
+          };
+
+          paymentForm = SequraPCI.paymentForm({
+            url: `${basePath}/onPaymentFailed.html`,
+            onPaymentFailed: callback,
+          }).mount('my-container');
+
+          setTimeout(resolve, 500); // To not lock the test in case the callback is not called
+        });
+        expect(callbackSpy).toHaveBeenNthCalledWith(1, "authentication");
+    });
+  });
 
   test('#unbind removes event listeners', async () => {
     const onFormSubmitted = jest.fn();
