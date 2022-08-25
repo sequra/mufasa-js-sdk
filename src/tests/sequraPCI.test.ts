@@ -28,7 +28,21 @@ describe('SequraPCI', () => {
     test('mounts the iframe in the DOM, hidden', () => {
       paymentForm = SequraPCI.paymentForm({ url: emptyUrl }).mount('my-container', { hidden: true });
       const mufasaIframe = document.querySelector('iframe');
-      expect(mufasaIframe.style["display"]).toEqual("none")
+      expect(mufasaIframe.style["display"]).toEqual("none");
+    });
+
+    test('it uses custom styles', () => {
+      const styles = { height: '111px', borderColor: 'blue' };
+      paymentForm = SequraPCI.paymentForm({ url: emptyUrl, styles }).mount('my-container');
+      const mufasaIframe = document.querySelector('iframe');
+      expect(mufasaIframe.style["height"]).toEqual('111px');
+      expect(mufasaIframe.style["border-color"]).toEqual('blue');
+    });
+
+    test('it uses custom css class', () => {
+      paymentForm = SequraPCI.paymentForm({ url: emptyUrl, className: 'my-class' }).mount('my-container');
+      const mufasaIframe = document.querySelector('iframe');
+      expect(mufasaIframe.className).toEqual('my-class');
     });
   });
 

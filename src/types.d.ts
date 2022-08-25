@@ -6,6 +6,8 @@ declare interface Window {
 
 interface PaymentFormConfig {
   url: string;
+  styles?: { [key: string]: string; },
+  className?: string | undefined,
   onCardDataFulfilled?: () => void;
   onFormErrors?: () => void;
   onPaymentFailed?: (data: { error: string }) => void;
