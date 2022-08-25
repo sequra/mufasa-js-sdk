@@ -18,6 +18,7 @@ This library allows to integrate a card payment form
     onScaClosed:         () => { ... },
     onPaymentFailed:     () => { ... },
     onPaymentSuccessful: () => { ... },
+    onLoad:              () => { ... },
   })
 ```
 
@@ -37,6 +38,7 @@ Notes:
 | onScaClosed         | Called when the SCA iframe has been closed.                                                                                                          |
 | onPaymentFailed     | Called when a payment has failed.                                                                                                                    |
 | onPaymentSuccessful | Called when a payment has succeeded.                                                                                                                 |
+| onLoad              | Called when the iframe is first loaded                                                                                                               |
 
 ### Mounting
 

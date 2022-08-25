@@ -14,6 +14,7 @@ const paymentForm = ({
   onScaRequired = voidFunction,
   onScaLoaded = voidFunction,
   onScaClosed = voidFunction,
+  onLoad = voidFunction,
 }: PaymentFormConfig):PaymentFormResult => {
   const mount = (domId: string, { hidden = false } = {}):PaymentFormMountResult => {
     let scaWrapper: HTMLElement;
@@ -101,6 +102,8 @@ const paymentForm = ({
     };
     listenPostMessages(eventListener);
 
+    mufasaIframe.addEventListener('load', onLoad);
+
     const setPermissionValue = (value: boolean) => {
       mufasaIframe.contentWindow.postMessage(
         JSON.stringify({
@@ -119,7 +122,10 @@ const paymentForm = ({
         '*',
       );
     };
-    const unbind = () => window.removeEventListener('message', eventListener);
+    const unbind = () => {
+      window.removeEventListener('message', eventListener);
+      mufasaIframe.removeEventListener('load', onLoad);
+    }
 
     return {
       unbind,

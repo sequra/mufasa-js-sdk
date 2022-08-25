@@ -1,4 +1,5 @@
 import SequraPCI from '../sequraPCI';
+import { existsSync } from 'fs';
 
 describe('SequraPCI', () => {
   let paymentForm: PaymentFormMountResult;
@@ -6,17 +7,26 @@ describe('SequraPCI', () => {
   afterEach(() => (document.getElementById('my-container').innerHTML = ''));
   afterEach(() => paymentForm.unbind());
   const basePath = `file:///${__dirname}/iframePages`;
-  let url = `${basePath}/empty.html`;
+  const emptyUrl = `${basePath}/empty.html`;
+
+  const fileUrlFor = (callbackName: string):string => {
+    const filePath = `${__dirname}/iframePages/${callbackName}.html`
+    if(existsSync(filePath)) {
+      return(`${basePath}/${callbackName}.html`);
+    } else {
+      return(emptyUrl);
+    }
+  }
 
   describe('mounting', () => {
     test('mounts the iframe in the DOM', async () => {
-      paymentForm = SequraPCI.paymentForm({ url }).mount('my-container');
+      paymentForm = SequraPCI.paymentForm({ url: emptyUrl }).mount('my-container');
       const mufasaIframe = document.querySelector('iframe');
-      expect(mufasaIframe).toHaveAttribute('src', url);
+      expect(mufasaIframe).toHaveAttribute('src', emptyUrl);
     });
 
     test('mounts the iframe in the DOM, hidden', () => {
-      paymentForm = SequraPCI.paymentForm({ url }).mount('my-container', { hidden: true });
+      paymentForm = SequraPCI.paymentForm({ url: emptyUrl }).mount('my-container', { hidden: true });
       const mufasaIframe = document.querySelector('iframe');
       expect(mufasaIframe.style["display"]).toEqual("none")
     });
@@ -30,10 +40,11 @@ describe('SequraPCI', () => {
       'onFormSubmitted',
       'onScaLoaded',
       'onScaClosed',
+      'onLoad',
     ];
     callbackNames.forEach((callbackName) => {
       test(callbackName, async () => {
-        url = `${basePath}/${callbackName}.html`;
+        const url = fileUrlFor(callbackName);
         const callbackSpy = jest.fn();
         await new Promise((resolve) => {
           const callback = () => {
@@ -79,7 +90,7 @@ describe('SequraPCI', () => {
     let finish:(_value: unknown) => void;
 
     await new Promise((resolve) => {
-      paymentForm = SequraPCI.paymentForm({ url, onFormSubmitted }).mount('my-container');
+      paymentForm = SequraPCI.paymentForm({ url: emptyUrl, onFormSubmitted }).mount('my-container');
       window.addEventListener('message', () => {
         numEventsFired++;
         if(numEventsFired === 1) {

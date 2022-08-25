@@ -14,6 +14,7 @@ interface PaymentFormConfig {
   onScaRequired?: () => void;
   onScaLoaded?: () => void;
   onScaClosed?: () => void;
+  onLoad?: () => void;
 }
 
 interface PaymentFormMountResult {
