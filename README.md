@@ -10,14 +10,17 @@ This library allows to integrate a card payment form
 ```javascript
   SequraPCI.paymentForm({
     url: "https://sequra-provided-url-to-pci-env",
+    styles: { marginBottom: "10px" },
+    className: 'my-class',
     onCardDataFulfilled: () => { ... },
     onFormErrors:        () => { ... },
     onFormSubmitted:     () => { ... },
     onScaRequired:       () => { ... },
     onScaLoaded:         () => { ... },
     onScaClosed:         () => { ... },
-    onPaymentFailed:     () => { ... },
+    onPaymentFailed:     ({ error }) => { ... },
     onPaymentSuccessful: () => { ... },
+    onLoad:              () => { ... },
   })
 ```
 
@@ -35,8 +38,9 @@ Notes:
 | onScaRequired       | Called when the payment requires a SCA.                                                                                                              |
 | onScaLoaded         | Called when the SCA iframe has been loaded.                                                                                                          |
 | onScaClosed         | Called when the SCA iframe has been closed.                                                                                                          |
-| onPaymentFailed     | Called when a payment has failed.                                                                                                                    |
+| onPaymentFailed     | Called when a payment has failed. It includes the error type as a parameter.                                                                         |
 | onPaymentSuccessful | Called when a payment has succeeded.                                                                                                                 |
+| onLoad              | Called when the iframe is first loaded                                                                                                               |
 
 ### Mounting
 
@@ -56,6 +60,20 @@ SequraPCI.paymentForm({ ... }).mount("card_form", { hidden: true })
 ```
 
 Note: in this case (payments with a token form), the iframe is auto submitted when is loaded.
+
+### Customization
+
+You can pass custom styles that will override base styles defined for the iframe container:
+
+```javascript
+SequraPCI.paymentForm({ styles: { width: "300px" }, ...otherProps }).mount("card_form")
+```
+
+A specific css class can also be passed to customize the iframe with css rules defined in the host html.
+
+```javascript
+SequraPCI.paymentForm({ className: 'payment-form', ...otherProps }).mount("card_form")
+```
 
 ### Actions
 

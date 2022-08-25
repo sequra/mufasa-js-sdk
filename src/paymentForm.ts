@@ -1,11 +1,22 @@
-import { createElement, listenPostMessages } from './utils';
+import { createElement, listenPostMessages, setElementStyles } from './utils';
 
 const voidFunction = () => {
   // noop
 };
 
+const baseStyles = {
+  height: '340px',
+  borderWidth: '0px',
+  border: 'none',
+  maxWidth: '360px',
+  width: '100%',
+  minWidth: '200px',
+};
+
 const paymentForm = ({
   url,
+  styles,
+  className,
   onCardDataFulfilled = voidFunction,
   onFormErrors = voidFunction,
   onPaymentFailed = voidFunction,
@@ -14,6 +25,7 @@ const paymentForm = ({
   onScaRequired = voidFunction,
   onScaLoaded = voidFunction,
   onScaClosed = voidFunction,
+  onLoad = voidFunction,
 }: PaymentFormConfig):PaymentFormResult => {
   const mount = (domId: string, { hidden = false } = {}):PaymentFormMountResult => {
     let scaWrapper: HTMLElement;
@@ -24,8 +36,15 @@ const paymentForm = ({
       id: 'mufasa-iframe',
       name: 'mufasa-iframe',
       src: url,
-      style: `min-height:340px;border-width:0px;border:none;max-width:360px;width:100%;min-width:200px;${hidden && "display:none;"}`,
     });
+    setElementStyles(mufasaIframe, {
+      ...baseStyles,
+      ...styles,
+      display: hidden ? 'none' : 'block'
+    });
+    if(className) {
+      mufasaIframe.className = className;
+    }
     container.appendChild(mufasaIframe);
 
     const eventListener = (event: MessageEvent) => {
@@ -58,7 +77,7 @@ const paymentForm = ({
           break;
         }
         case 'Sequra.mufasa_resized': {
-          mufasaIframe.style.height = `${event.data.height}px`;
+          setElementStyles(mufasaIframe, { height: `${eventData.height}px`});
           break;
         }
         case 'Sequra.3ds_authentication': {
@@ -101,6 +120,8 @@ const paymentForm = ({
     };
     listenPostMessages(eventListener);
 
+    mufasaIframe.addEventListener('load', onLoad);
+
     const setPermissionValue = (value: boolean) => {
       mufasaIframe.contentWindow.postMessage(
         JSON.stringify({
@@ -119,7 +140,10 @@ const paymentForm = ({
         '*',
       );
     };
-    const unbind = () => window.removeEventListener('message', eventListener);
+    const unbind = () => {
+      window.removeEventListener('message', eventListener);
+      mufasaIframe.removeEventListener('load', onLoad);
+    }
 
     return {
       unbind,
