@@ -67,7 +67,8 @@ describe('SequraPCI', () => {
           };
 
           paymentForm = SequraPCI.paymentForm({
-            url,
+            url: url,
+            baseUrl: url,
             [callbackName]: callback,
           }).mount('my-container');
 

@@ -6,6 +6,7 @@ declare interface Window {
 
 interface PaymentFormConfig {
   url: string;
+  baseUrl?: string | "https://mufasa.sequrapci.com";
   styles?: { [key: string]: string };
   className?: string | undefined;
   onCardDataFulfilled?: () => void;

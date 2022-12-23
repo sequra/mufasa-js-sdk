@@ -15,6 +15,7 @@ const baseStyles = {
 
 const paymentForm = ({
   url,
+  baseUrl,
   styles,
   className,
   onCardDataFulfilled = voidFunction,
@@ -114,7 +115,7 @@ const paymentForm = ({
         case 'Sequra.start_synchronization_polling':
           scaWrapper?.remove();
           scaWrapper = null;
-          mufasaIframe.contentWindow.postMessage(JSON.stringify(eventData), url);
+          mufasaIframe.contentWindow.postMessage(JSON.stringify(eventData), baseUrl);
           break;
       }
     };
