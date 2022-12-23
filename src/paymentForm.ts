@@ -26,8 +26,8 @@ const paymentForm = ({
   onScaLoaded = voidFunction,
   onScaClosed = voidFunction,
   onLoad = voidFunction,
-}: PaymentFormConfig):PaymentFormResult => {
-  const mount = (domId: string, { hidden = false } = {}):PaymentFormMountResult => {
+}: PaymentFormConfig): PaymentFormResult => {
+  const mount = (domId: string, { hidden = false } = {}): PaymentFormMountResult => {
     let scaWrapper: HTMLElement;
     let scaIframe: HTMLIFrameElement;
 
@@ -40,9 +40,9 @@ const paymentForm = ({
     setElementStyles(mufasaIframe, {
       ...baseStyles,
       ...styles,
-      display: hidden ? 'none' : 'block'
+      display: hidden ? 'none' : 'block',
     });
-    if(className) {
+    if (className) {
       mufasaIframe.className = className;
     }
     container.appendChild(mufasaIframe);
@@ -77,7 +77,7 @@ const paymentForm = ({
           break;
         }
         case 'Sequra.mufasa_resized': {
-          setElementStyles(mufasaIframe, { height: `${eventData.height}px`});
+          setElementStyles(mufasaIframe, { height: `${eventData.height}px` });
           break;
         }
         case 'Sequra.3ds_authentication': {
@@ -110,7 +110,7 @@ const paymentForm = ({
         case 'Sequra.3ds_authentication_closed':
           onScaClosed();
         case 'Sequra.new_form_fields':
-          // falls through
+        // falls through
         case 'Sequra.start_synchronization_polling':
           scaWrapper?.remove();
           scaWrapper = null;
@@ -143,7 +143,7 @@ const paymentForm = ({
     const unbind = () => {
       window.removeEventListener('message', eventListener);
       mufasaIframe.removeEventListener('load', onLoad);
-    }
+    };
 
     return {
       unbind,

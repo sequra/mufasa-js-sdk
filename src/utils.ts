@@ -14,7 +14,7 @@ export const listenPostMessages = (eventListener: (event: MessageEvent) => void)
   }
 };
 
-export const setElementStyles = (element: HTMLElement, styles: { [key: string ]: string}):void => {
+export const setElementStyles = (element: HTMLElement, styles: { [key: string]: string }): void => {
   for (const [key, value] of Object.entries(styles)) {
     element.style[key] = value;
   }
