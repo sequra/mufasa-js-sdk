@@ -1,11 +1,28 @@
 # Sequra PCI card form integration library
 
+## 📖 Overview 📖
 This library allows to integrate a card payment form
 
-## API
+### ⚙️ Components summary ⚙️
+> Main components for this service or links to the docs explaining them.
 
+### 📊 Observability and dashboards 📊
+> Links to the Grafana business and tech related dashboards.
 
-### Config initialization
+### 🔌 System dependencies 🔌
+> DB engine, cache tooling, job queues, cache servers, search engines, etc.
+
+## 👩‍💻 Development environment instructions 👩‍💻
+> How to get your local environment ready to start working.
+
+### 🚧 How to run the test suite 🚧
+> How to run the tests
+
+## 🚀 Use instructions 🚀
+
+### API
+
+#### Config initialization
 
 ```javascript
   SequraPCI.paymentForm({
@@ -28,7 +45,7 @@ Notes:
   1. The `url` param is mandatory and it must be the url provided by the SeQura API.
   2. Any callback function param is optional.
 
-### Callbacks description
+#### Callbacks description
 
 | callback            | description                                                                                                                                          |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,7 +59,7 @@ Notes:
 | onPaymentSuccessful | Called when a payment has succeeded.                                                                                                                 |
 | onLoad              | Called when the iframe is first loaded                                                                                                               |
 
-### Mounting
+#### Mounting
 
 Once the payment form has been initialized, it has to be mounted in the DOM, for example, inside a given `div` container:
 ```html
@@ -61,7 +78,7 @@ SequraPCI.paymentForm({ ... }).mount("card_form", { hidden: true })
 
 Note: in this case (payments with a token form), the iframe is auto submitted when is loaded.
 
-### Customization
+#### Customization
 
 You can pass custom styles that will override base styles defined for the iframe container:
 
@@ -75,7 +92,7 @@ A specific css class can also be passed to customize the iframe with css rules d
 SequraPCI.paymentForm({ className: 'payment-form', ...otherProps }).mount("card_form")
 ```
 
-### Actions
+#### Actions
 
 Given a mounted card form iframe:
 ```javascript
@@ -99,7 +116,7 @@ paymentForm.unbind()
 ```
 
 
-## Browser usage
+### Browser usage
 
 ```html
 <script
@@ -111,7 +128,7 @@ paymentForm.unbind()
 ```
 This will expose the `SequraPCI` global var.
 
-## NPM package usage
+### NPM package usage
 
 Create a `.npmrc` file with the following contents:
 
