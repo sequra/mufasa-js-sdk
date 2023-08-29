@@ -105,10 +105,12 @@ const paymentForm = ({
           if (scaIframe) {
             scaIframe.classList.remove('hidden');
           }
+          mufasaIframe.contentWindow.postMessage(JSON.stringify(eventData), url);
           onScaLoaded();
           break;
         case 'Sequra.3ds_authentication_closed':
           onScaClosed();
+          // falls through
         case 'Sequra.new_form_fields':
           // falls through
         case 'Sequra.start_synchronization_polling':

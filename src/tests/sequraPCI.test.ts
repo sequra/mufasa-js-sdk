@@ -46,12 +46,31 @@ describe('SequraPCI', () => {
     });
   });
 
+  test('Sequra.3ds_authentication post message adds a iframe with the provided url', async () => {
+    let numIframesBefore = 0;
+    await new Promise((resolve) => {
+      const onScaRequired = () => resolve(null);
+      paymentForm = SequraPCI.paymentForm({
+        url: `${basePath}/onScaRequired.html`,
+        onScaRequired,
+      }).mount('my-container');
+      numIframesBefore = document.querySelectorAll('iframe').length;
+      window.postMessage(JSON.stringify({ action: 'Sequra.3ds_authentication', src: 'https://example.com' }), '*')
+
+      setTimeout(resolve, 500); // To not lock the test in case the callback is not called
+    });
+
+    expect(document.querySelectorAll('iframe').length).toEqual(numIframesBefore + 1);
+    expect(document.getElementById('iframe-3ds-autentication').src).toEqual('https://example.com/');
+  });
+
   describe('callbacks without params', () => {
     const callbackNames = [
       'onFormErrors',
       'onCardDataFulfilled',
       'onPaymentSuccessful',
       'onFormSubmitted',
+      'onScaRequired',
       'onScaLoaded',
       'onScaClosed',
       'onLoad',
@@ -98,7 +117,36 @@ describe('SequraPCI', () => {
     });
   });
 
-  test('#unbind removes event listeners', async () => {
+  describe('post message forwarding', () => {
+    const forwardedPostMessages = [
+      'Sequra.3ds_authentication_loaded',
+      'Sequra.3ds_authentication_closed',
+      'Sequra.new_form_fields',
+      'Sequra.start_synchronization_polling',
+    ];
+    forwardedPostMessages.forEach((postMessage) => {
+      test(`the host page forwards ${postMessage} post message to mufasa-iframe`, async () => {
+        let numEventsFired = 0;
+        await new Promise((resolve) => {
+          paymentForm = SequraPCI.paymentForm({ url: 'https://example.com' }).mount('my-container');
+          const mufasaIframe = document.querySelector('iframe');
+          mufasaIframe.contentWindow.addEventListener('message', (event) => {
+            const eventData = JSON.parse(event.data);
+            if (eventData.action === postMessage) {
+              numEventsFired++;
+              resolve(null);
+            }
+          }, false);
+          window.postMessage(JSON.stringify({ action: postMessage }), '*')
+
+          setTimeout(resolve, 500); // To not lock the test in case the event is not fired
+        });
+        expect(numEventsFired).toEqual(1)
+      });
+    });
+  });
+
+  test('bind removes event listeners', async () => {
     const onFormSubmitted = jest.fn();
     let numEventsFired = 0;
     let finish:(_value: unknown) => void;
@@ -108,19 +156,19 @@ describe('SequraPCI', () => {
       window.addEventListener('message', () => {
         numEventsFired++;
         if(numEventsFired === 1) {
-          paymentForm.unbind()
-          resolve(null)
+          paymentForm.unbind();
+          resolve(null);
         } else if(finish) {
-          finish(null)
+          finish(null);
         }
-      }, false)
-      window.postMessage(JSON.stringify({ action: 'Sequra.mufasa_submitted' }), '*')
+      }, false);
+      window.postMessage(JSON.stringify({ action: 'Sequra.mufasa_submitted' }), '*');
     })
     await new Promise((resolve) => {
-      finish = resolve
-      window.postMessage(JSON.stringify({ action: 'Sequra.mufasa_submitted' }), '*')
+      finish = resolve;
+      window.postMessage(JSON.stringify({ action: 'Sequra.mufasa_submitted' }), '*');
     })
-    expect(numEventsFired).toEqual(2)
-    expect(onFormSubmitted).toHaveBeenCalledTimes(1)
+    expect(numEventsFired).toEqual(2);
+    expect(onFormSubmitted).toHaveBeenCalledTimes(1);
   })
 });
