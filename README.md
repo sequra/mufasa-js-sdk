@@ -121,8 +121,8 @@ paymentForm.unbind()
 ```html
 <script
   type="text/javascript"
-  src="https://mufasa.sequracdn.com/v1.0.0/sequra-pci.js"
-  integrity="sha384-UlIevrkGIbR5eejNmc3+JaWvwnRkxHVtOG/+GJO/Hx8jQ1a5ED2yUZzH6hwMrWui"
+  src="https://mufasa.sequracdn.com/v1.2.1/sequra-pci.js"
+  integrity="sha384-nntbqZYpgUrYyp3BrkXF/1SGmGfgMTPbXGXTdnh4jI2OVqTfhTbC8zeF7h/o45JX"
   crossorigin="anonymous">
 </script>
 ```
