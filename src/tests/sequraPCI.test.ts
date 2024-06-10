@@ -28,7 +28,13 @@ describe('SequraPCI', () => {
     test('mounts the iframe in the DOM, hidden', () => {
       paymentForm = SequraPCI.paymentForm({ url: emptyUrl }).mount('my-container', { hidden: true });
       const mufasaIframe = document.querySelector('iframe');
-      expect(mufasaIframe.style["display"]).toEqual("none");
+      expect(mufasaIframe).toHaveStyle({
+        position: 'absolute',
+        height: '0px',
+        left: '-999px',
+        overflow: 'hidden',
+        opacity: '0',
+      });
     });
 
     test('it uses custom styles', () => {

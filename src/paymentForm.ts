@@ -37,10 +37,17 @@ const paymentForm = ({
       name: 'mufasa-iframe',
       src: url,
     });
+    const tokenFormStyles = !hidden ? {} : {
+      position: 'absolute',
+      height: '0px',
+      left: '-999px',
+      overflow: 'hidden',
+      opacity: '0',
+    };
     setElementStyles(mufasaIframe, {
       ...baseStyles,
       ...styles,
-      display: hidden ? 'none' : 'block'
+      ...tokenFormStyles,
     });
     if(className) {
       mufasaIframe.className = className;
