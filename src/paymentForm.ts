@@ -63,31 +63,25 @@ const paymentForm = ({
       }
 
       switch (eventData.action) {
-        case 'Sequra.invalid_form': {
+        case 'Sequra.invalid_form':
           onFormErrors();
           break;
-        }
-        case 'Sequra.card_data_fulfilled': {
+        case 'Sequra.card_data_fulfilled':
           onCardDataFulfilled();
           break;
-        }
-        case 'Sequra.payment_failed': {
+        case 'Sequra.payment_failed':
           onPaymentFailed({ error: eventData.error });
           break;
-        }
-        case 'Sequra.payment_successful': {
+        case 'Sequra.payment_successful':
           onPaymentSuccessful();
           break;
-        }
-        case 'Sequra.mufasa_submitted': {
+        case 'Sequra.mufasa_submitted':
           onFormSubmitted();
           break;
-        }
-        case 'Sequra.mufasa_resized': {
+        case 'Sequra.mufasa_resized':
           setElementStyles(mufasaIframe, { height: `${eventData.height}px`});
           break;
-        }
-        case 'Sequra.3ds_authentication': {
+        case 'Sequra.3ds_authentication':
           scaWrapper = createElement('div', {
             id: 'iframe-3ds-autentication-wrapper',
             style: 'display:block;position:fixed;z-index:2147483647;top:0;left:0;right:0;bottom:0;',
@@ -107,7 +101,9 @@ const paymentForm = ({
           document.body.appendChild(scaWrapper);
           onScaRequired();
           break;
-        }
+        case 'Sequra.form_loaded':
+          onLoad();
+          break;
         case 'Sequra.3ds_authentication_loaded':
           if (scaIframe) {
             scaIframe.classList.remove('hidden');
@@ -129,8 +125,6 @@ const paymentForm = ({
     };
     listenPostMessages(eventListener);
 
-    mufasaIframe.addEventListener('load', onLoad);
-
     const setPermissionValue = (value: boolean) => {
       mufasaIframe.contentWindow.postMessage(
         JSON.stringify({
@@ -151,7 +145,6 @@ const paymentForm = ({
     };
     const unbind = () => {
       window.removeEventListener('message', eventListener);
-      mufasaIframe.removeEventListener('load', onLoad);
     }
 
     return {
