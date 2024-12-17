@@ -52,7 +52,6 @@ const paymentForm = ({
     if(className) {
       mufasaIframe.className = className;
     }
-    container.appendChild(mufasaIframe);
 
     const eventListener = (event: MessageEvent) => {
       let eventData;
@@ -124,6 +123,8 @@ const paymentForm = ({
       }
     };
     listenPostMessages(eventListener);
+
+    container.appendChild(mufasaIframe);
 
     const setPermissionValue = (value: boolean) => {
       mufasaIframe.contentWindow.postMessage(
