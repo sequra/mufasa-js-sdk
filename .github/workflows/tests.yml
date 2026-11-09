@@ -6,25 +6,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: '.nvmrc'
+          check-latest: true
 
       # Speed up subsequent runs with caching
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: yarn-cache
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('.nvmrc', '**/yarn.lock') }}
 
       - name: Install packages
         if: steps.yarn-cache.outputs.cache-hit != 'true'

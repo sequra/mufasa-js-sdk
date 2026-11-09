@@ -11,12 +11,13 @@ jobs:
   publish_package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version-file: '.nvmrc'
+          check-latest: true
           registry-url: 'https://npm.pkg.github.com'
           # Defaults to the user or organization that owns the workflow file
           scope: '@octocat'
@@ -30,20 +31,21 @@ jobs:
   s3_upload:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          node-version-file: '.nvmrc'
+          check-latest: true
 
       # Speed up subsequent runs with caching
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: yarn-cache
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('.nvmrc', '**/yarn.lock') }}
 
       - name: Install packages
         if: steps.yarn-cache.outputs.cache-hit != 'true'
@@ -53,7 +55,7 @@ jobs:
         run: yarn dist
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
