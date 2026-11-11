@@ -11,10 +11,10 @@ jobs:
   publish_package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -31,17 +31,17 @@ jobs:
   s3_upload:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true
 
       # Speed up subsequent runs with caching
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         id: yarn-cache
         with:
           path: '**/node_modules'
@@ -55,7 +55,7 @@ jobs:
         run: yarn dist
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
